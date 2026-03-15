@@ -7,7 +7,9 @@
   (:use #:cl)
   (:nicknames #:zk-circuits)
   (:export
-   ;; Field arithmetic
+   #:with-zk-circuits-timing
+   #:zk-circuits-batch-process
+   #:zk-circuits-health-check;; Field arithmetic
    #:+field-prime+
    #:field-add
    #:field-sub

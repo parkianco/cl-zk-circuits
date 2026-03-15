@@ -3,7 +3,7 @@
 
 (asdf:defsystem #:cl-zk-circuits
   :description "Pure Common Lisp zero-knowledge circuit construction"
-  :author "Parkian Company LLC"
+  :author "Park Ian Co"
   :license "Apache-2.0"
   :version "0.1.0"
   :homepage "https://github.com/parkianco/cl-zk-circuits"
@@ -12,14 +12,10 @@
   :components
   ((:file "package")
    (:module "src"
-    :serial t
-    :components
-    ((:file "field")
-     (:file "wire")
-     (:file "constraint")
-     (:file "r1cs")
-     (:file "gadgets")
-     (:file "compiler")))))
+                :components ((:file "package")
+                             (:file "conditions" :depends-on ("package"))
+                             (:file "types" :depends-on ("package"))
+                             (:file "cl-zk-circuits" :depends-on ("package" "conditions" "types")))))))
 
 (asdf:defsystem #:cl-zk-circuits/test
   :description "Tests for cl-zk-circuits"
