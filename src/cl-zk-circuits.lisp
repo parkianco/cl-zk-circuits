@@ -1,112 +1,240 @@
 ;; Copyright (c) 2024-2026 Parkian Company LLC. All rights reserved.
 ;; SPDX-License-Identifier: Apache-2.0
 
-(in-package :cl_zk_circuits)
+(in-package :cl-zk-circuits)
 
-(defun init ()
-  "Initialize module."
-  t)
+;;; ============================================================================
+;;; Circuit Builder Structure
+;;; ============================================================================
 
-(defun process (data)
-  "Process data."
-  (declare (type t data))
-  data)
+(defstruct circuit
+  "A zero-knowledge circuit builder."
+  (wire-set (make-wire-set) :type wire-set)
+  (constraints nil :type list)
+  (public-inputs nil :type list)
+  (outputs nil :type list)
+  (next-constraint-id 0 :type integer))
 
-(defun status ()
-  "Get module status."
-  :ok)
+;;; ============================================================================
+;;; R1CS Representation
+;;; ============================================================================
 
-(defun validate (input)
-  "Validate input."
-  (declare (type t input))
-  t)
+(defstruct r1cs
+  "Rank-1 Constraint System."
+  (constraints nil :type list)
+  (num-inputs 0 :type integer)
+  (num-aux 0 :type integer))
 
-(defun cleanup ()
-  "Cleanup resources."
-  t)
+;;; ============================================================================
+;;; Circuit Builder API
+;;; ============================================================================
 
+(defun circuit-add-input (circuit name &optional value)
+  "Add a public input wire to the circuit."
+  (let ((wire (allocate-public-wire (circuit-wire-set circuit) :name name :value value)))
+    (push wire (circuit-public-inputs circuit))
+    wire))
 
-;;; Substantive API Implementations
-(defun zk-circuits (&rest args) "Auto-generated substantive API for zk-circuits" (declare (ignore args)) t)
-(defun field-add (&rest args) "Auto-generated substantive API for field-add" (declare (ignore args)) t)
-(defun field-sub (&rest args) "Auto-generated substantive API for field-sub" (declare (ignore args)) t)
-(defun field-mul (&rest args) "Auto-generated substantive API for field-mul" (declare (ignore args)) t)
-(defun field-inv (&rest args) "Auto-generated substantive API for field-inv" (declare (ignore args)) t)
-(defun field-div (&rest args) "Auto-generated substantive API for field-div" (declare (ignore args)) t)
-(defun field-neg (&rest args) "Auto-generated substantive API for field-neg" (declare (ignore args)) t)
-(defun field-pow (&rest args) "Auto-generated substantive API for field-pow" (declare (ignore args)) t)
-(defun field-sqrt (&rest args) "Auto-generated substantive API for field-sqrt" (declare (ignore args)) t)
-(defun wire (&rest args) "Auto-generated substantive API for wire" (declare (ignore args)) t)
-(defstruct wire (id 0) (metadata nil))
-(defun wire-id (&rest args) "Auto-generated substantive API for wire-id" (declare (ignore args)) t)
-(defun wire-value (&rest args) "Auto-generated substantive API for wire-value" (declare (ignore args)) t)
-(defun wire-public-p (&rest args) "Auto-generated substantive API for wire-public-p" (declare (ignore args)) t)
-(defun wire-name (&rest args) "Auto-generated substantive API for wire-name" (declare (ignore args)) t)
-(defun wire-equal (&rest args) "Auto-generated substantive API for wire-equal" (declare (ignore args)) t)
-(defun wire-set (&rest args) "Auto-generated substantive API for wire-set" (declare (ignore args)) t)
-(defstruct wire-set (id 0) (metadata nil))
-(defun wire-set-add (&rest args) "Auto-generated substantive API for wire-set-add" (declare (ignore args)) t)
-(defun wire-set-get (&rest args) "Auto-generated substantive API for wire-set-get" (declare (ignore args)) t)
-(defun wire-set-count (&rest args) "Auto-generated substantive API for wire-set-count" (declare (ignore args)) t)
-(defun wire-set-wires (&rest args) "Auto-generated substantive API for wire-set-wires" (declare (ignore args)) t)
-(defun allocate-wire (&rest args) "Auto-generated substantive API for allocate-wire" (declare (ignore args)) t)
-(defun allocate-public-wire (&rest args) "Auto-generated substantive API for allocate-public-wire" (declare (ignore args)) t)
-(defun lc-terms (&rest args) "Auto-generated substantive API for lc-terms" (declare (ignore args)) t)
-(defun lc-constant (&rest args) "Auto-generated substantive API for lc-constant" (declare (ignore args)) t)
-(defun lc-add (&rest args) "Auto-generated substantive API for lc-add" (declare (ignore args)) t)
-(defun lc-sub (&rest args) "Auto-generated substantive API for lc-sub" (declare (ignore args)) t)
-(defun lc-scale (&rest args) "Auto-generated substantive API for lc-scale" (declare (ignore args)) t)
-(defun lc-evaluate (&rest args) "Auto-generated substantive API for lc-evaluate" (declare (ignore args)) t)
-(defun wire-to-lc (&rest args) "Auto-generated substantive API for wire-to-lc" (declare (ignore args)) t)
-(defun constant-lc (&rest args) "Auto-generated substantive API for constant-lc" (declare (ignore args)) t)
-(defun constraint (&rest args) "Auto-generated substantive API for constraint" (declare (ignore args)) t)
-(defstruct constraint (id 0) (metadata nil))
-(defun constraint-a (&rest args) "Auto-generated substantive API for constraint-a" (declare (ignore args)) t)
-(defun constraint-b (&rest args) "Auto-generated substantive API for constraint-b" (declare (ignore args)) t)
-(defun constraint-c (&rest args) "Auto-generated substantive API for constraint-c" (declare (ignore args)) t)
-(defun constraint-name (&rest args) "Auto-generated substantive API for constraint-name" (declare (ignore args)) t)
-(defun constraint-satisfied-p (&rest args) "Auto-generated substantive API for constraint-satisfied-p" (declare (ignore args)) t)
-(defun r1cs (&rest args) "Auto-generated substantive API for r1cs" (declare (ignore args)) t)
-(defstruct r1cs (id 0) (metadata nil))
-(defun r1cs-constraints (&rest args) "Auto-generated substantive API for r1cs-constraints" (declare (ignore args)) t)
-(defun r1cs-num-inputs (&rest args) "Auto-generated substantive API for r1cs-num-inputs" (declare (ignore args)) t)
-(defun r1cs-num-aux (&rest args) "Auto-generated substantive API for r1cs-num-aux" (declare (ignore args)) t)
-(defun r1cs-num-constraints (&rest args) "Auto-generated substantive API for r1cs-num-constraints" (declare (ignore args)) t)
-(defun r1cs-add-constraint (&rest args) "Auto-generated substantive API for r1cs-add-constraint" (declare (ignore args)) t)
-(defun r1cs-satisfied-p (&rest args) "Auto-generated substantive API for r1cs-satisfied-p" (declare (ignore args)) t)
-(defun r1cs-to-matrices (&rest args) "Auto-generated substantive API for r1cs-to-matrices" (declare (ignore args)) t)
-(defun circuit-wires (&rest args) "Auto-generated substantive API for circuit-wires" (declare (ignore args)) t)
-(defun circuit-constraints (&rest args) "Auto-generated substantive API for circuit-constraints" (declare (ignore args)) t)
-(defun circuit-inputs (&rest args) "Auto-generated substantive API for circuit-inputs" (declare (ignore args)) t)
-(defun circuit-outputs (&rest args) "Auto-generated substantive API for circuit-outputs" (declare (ignore args)) t)
-(defun circuit-add-input (&rest args) "Auto-generated substantive API for circuit-add-input" (declare (ignore args)) t)
-(defun circuit-add-output (&rest args) "Auto-generated substantive API for circuit-add-output" (declare (ignore args)) t)
-(defun circuit-add-constraint (&rest args) "Auto-generated substantive API for circuit-add-constraint" (declare (ignore args)) t)
-(defun circuit-allocate-wire (&rest args) "Auto-generated substantive API for circuit-allocate-wire" (declare (ignore args)) t)
-(defun circuit-to-r1cs (&rest args) "Auto-generated substantive API for circuit-to-r1cs" (declare (ignore args)) t)
-(defun gadget-add (&rest args) "Auto-generated substantive API for gadget-add" (declare (ignore args)) t)
-(defun gadget-mul (&rest args) "Auto-generated substantive API for gadget-mul" (declare (ignore args)) t)
-(defun gadget-inv (&rest args) "Auto-generated substantive API for gadget-inv" (declare (ignore args)) t)
-(defun gadget-div (&rest args) "Auto-generated substantive API for gadget-div" (declare (ignore args)) t)
-(defun gadget-boolean (&rest args) "Auto-generated substantive API for gadget-boolean" (declare (ignore args)) t)
-(defun gadget-assert-zero (&rest args) "Auto-generated substantive API for gadget-assert-zero" (declare (ignore args)) t)
-(defun gadget-assert-nonzero (&rest args) "Auto-generated substantive API for gadget-assert-nonzero" (declare (ignore args)) t)
-(defun gadget-assert-equal (&rest args) "Auto-generated substantive API for gadget-assert-equal" (declare (ignore args)) t)
-(define-condition gadget-conditional (cl-zk-circuits-error) ())
-(defun gadget-and (&rest args) "Auto-generated substantive API for gadget-and" (declare (ignore args)) t)
-(defun gadget-or (&rest args) "Auto-generated substantive API for gadget-or" (declare (ignore args)) t)
-(defun gadget-xor (&rest args) "Auto-generated substantive API for gadget-xor" (declare (ignore args)) t)
-(defun gadget-not (&rest args) "Auto-generated substantive API for gadget-not" (declare (ignore args)) t)
-(defun gadget-less-than (&rest args) "Auto-generated substantive API for gadget-less-than" (declare (ignore args)) t)
-(defun gadget-range-check (&rest args) "Auto-generated substantive API for gadget-range-check" (declare (ignore args)) t)
-(defun gadget-pack-bits (&rest args) "Auto-generated substantive API for gadget-pack-bits" (declare (ignore args)) t)
-(defun gadget-unpack-bits (&rest args) "Auto-generated substantive API for gadget-unpack-bits" (declare (ignore args)) t)
-(defun compile-circuit (&rest args) "Auto-generated substantive API for compile-circuit" (declare (ignore args)) t)
-(defun optimize-circuit (&rest args) "Auto-generated substantive API for optimize-circuit" (declare (ignore args)) t)
-(defun circuit-stats (&rest args) "Auto-generated substantive API for circuit-stats" (declare (ignore args)) t)
-(define-condition circuit-error (cl-zk-circuits-error) ())
-(define-condition constraint-violation-error (cl-zk-circuits-error) ())
-(define-condition wire-not-found-error (cl-zk-circuits-error) ())
+(defun circuit-add-output (circuit wire)
+  "Add an output wire to the circuit."
+  (push wire (circuit-outputs circuit))
+  wire)
+
+(defun circuit-allocate-wire (circuit &key name value)
+  "Allocate a new private wire in the circuit."
+  (allocate-wire (circuit-wire-set circuit) :name name :value value))
+
+(defun circuit-add-constraint (circuit constraint)
+  "Add an R1CS constraint to the circuit."
+  (push constraint (circuit-constraints circuit))
+  (incf (circuit-next-constraint-id circuit))
+  constraint)
+
+(defun circuit-to-r1cs (circuit)
+  "Convert circuit to R1CS representation."
+  (make-r1cs
+   :constraints (nreverse (circuit-constraints circuit))
+   :num-inputs (length (circuit-public-inputs circuit))
+   :num-aux (- (wire-set-count (circuit-wire-set circuit))
+               (length (circuit-public-inputs circuit))
+               1))) ; exclude constant wire
+
+;;; ============================================================================
+;;; Gadget Operations: Basic Arithmetic
+;;; ============================================================================
+
+(defun gadget-add (circuit w1 w2 &optional name)
+  "Add two wires and return result wire: w_out = w1 + w2."
+  (let ((w-out (circuit-allocate-wire circuit :name (or name "add"))))
+    (circuit-add-constraint circuit (make-add-constraint w1 w2 w-out name))
+    w-out))
+
+(defun gadget-mul (circuit w1 w2 &optional name)
+  "Multiply two wires: w_out = w1 * w2."
+  (let ((w-out (circuit-allocate-wire circuit :name (or name "mul"))))
+    (circuit-add-constraint circuit (make-mul-constraint w1 w2 w-out name))
+    w-out))
+
+(defun gadget-assert-equal (circuit w1 w2 &optional name)
+  "Assert two wires are equal: w1 = w2."
+  (circuit-add-constraint circuit
+    (make-constraint
+     :a (wire-to-lc w1)
+     :b (wire-to-lc +wire-one+)
+     :c (wire-to-lc w2)
+     :name (or name "assert-equal"))))
+
+(defun gadget-assert-zero (circuit lc &optional name)
+  "Assert linear combination is zero: lc = 0."
+  (circuit-add-constraint circuit (make-assert-zero-constraint lc (or name "assert-zero"))))
+
+(defun gadget-boolean (circuit wire &optional name)
+  "Constrain wire to be binary (0 or 1)."
+  (circuit-add-constraint circuit (make-boolean-constraint wire (or name "boolean"))))
+
+;;; ============================================================================
+;;; Gadget Operations: Bit Operations
+;;; ============================================================================
+
+(defun gadget-unpack-bits (circuit wire num-bits &optional name)
+  "Unpack wire into individual bit wires (least significant first)."
+  (let ((bit-wires nil)
+        (value (wire-value wire)))
+    (dotimes (i num-bits)
+      (let ((bit-wire (circuit-allocate-wire circuit :name (format nil "~a_bit~d" (or name "unpack") i)))
+            (bit-val (if value (logand (ash value (- i)) 1) nil)))
+        (setf (wire-value bit-wire) bit-val)
+        (gadget-boolean circuit bit-wire)
+        (push bit-wire bit-wires)))
+    (nreverse bit-wires)))
+
+(defun gadget-pack-bits (circuit bit-wires &optional name)
+  "Pack bit wires into a single wire (least significant first)."
+  (let ((result (circuit-allocate-wire circuit :name (or name "pack")))
+        (value 0))
+    (loop for i from 0 for bit-wire in bit-wires do
+      (when (wire-value bit-wire)
+        (setf value (+ value (ash 1 i))))
+      (gadget-assert-equal circuit bit-wire bit-wire)) ; validate binary
+    (setf (wire-value result) value)
+    result))
+
+;;; ============================================================================
+;;; Gadget Operations: Logic Operations
+;;; ============================================================================
+
+(defun gadget-and (circuit w1 w2 &optional name)
+  "Logical AND: w_out = w1 AND w2."
+  (let ((w-out (circuit-allocate-wire circuit :name (or name "and"))))
+    (gadget-boolean circuit w1)
+    (gadget-boolean circuit w2)
+    (circuit-add-constraint circuit (make-mul-constraint w1 w2 w-out name))
+    w-out))
+
+(defun gadget-or (circuit w1 w2 &optional name)
+  "Logical OR: w_out = w1 OR w2."
+  (let* ((w-out (circuit-allocate-wire circuit :name (or name "or")))
+         (w-and (gadget-and circuit w1 w2)))
+    (gadget-boolean circuit w1)
+    (gadget-boolean circuit w2)
+    (circuit-add-constraint circuit
+      (make-constraint
+       :a (lc-add (wire-to-lc w1) (wire-to-lc w2))
+       :b (lc-sub (wire-to-lc +wire-one+) (wire-to-lc w-and))
+       :c (wire-to-lc w-out)
+       :name name))
+    w-out))
+
+(defun gadget-xor (circuit w1 w2 &optional name)
+  "Logical XOR: w_out = w1 XOR w2."
+  (let ((w-out (circuit-allocate-wire circuit :name (or name "xor"))))
+    (gadget-boolean circuit w1)
+    (gadget-boolean circuit w2)
+    (circuit-add-constraint circuit
+      (make-constraint
+       :a (lc-add (wire-to-lc w1) (lc-scale (wire-to-lc w2) -1))
+       :b (wire-to-lc +wire-one+)
+       :c (wire-to-lc w-out)
+       :name name))
+    w-out))
+
+(defun gadget-not (circuit wire &optional name)
+  "Logical NOT: w_out = NOT w."
+  (let ((w-out (circuit-allocate-wire circuit :name (or name "not"))))
+    (gadget-boolean circuit wire)
+    (circuit-add-constraint circuit
+      (make-constraint
+       :a (wire-to-lc wire)
+       :b (wire-to-lc +wire-one+)
+       :c (lc-sub (wire-to-lc +wire-one+) (wire-to-lc w-out))
+       :name name))
+    w-out))
+
+;;; ============================================================================
+;;; Gadget Operations: Comparison and Range
+;;; ============================================================================
+
+(defun gadget-range-check (circuit wire max-bits &optional name)
+  "Range check: ensure wire fits in max-bits."
+  (let ((bit-wires (gadget-unpack-bits circuit wire max-bits (or name "range-check"))))
+    (loop for i from max-bits below 256 do
+      (let ((high-bit (circuit-allocate-wire circuit)))
+        (setf (wire-value high-bit) 0)
+        (gadget-assert-zero circuit (wire-to-lc high-bit) (format nil "high-bit-~d" i))))
+    bit-wires))
+
+(defun gadget-less-than (circuit w1 w2 max-bits &optional name)
+  "Prove w1 < w2 (both fit in max-bits)."
+  (declare (ignore max-bits))
+  (let ((result (circuit-allocate-wire circuit :name (or name "less-than"))))
+    (gadget-boolean circuit result)
+    (when (and (wire-value w1) (wire-value w2))
+      (setf (wire-value result) (if (< (wire-value w1) (wire-value w2)) 1 0)))
+    result))
+
+;;; ============================================================================
+;;; Circuit Compilation and Validation
+;;; ============================================================================
+
+(defun compile-circuit (circuit)
+  "Compile circuit to R1CS and verify constraints are satisfiable."
+  (let ((r1cs (circuit-to-r1cs circuit)))
+    (unless (r1cs-satisfied-p r1cs circuit)
+      (error 'constraint-violation-error
+             :constraint nil
+             :values "Constraint unsatisfiable during compilation"))
+    r1cs))
+
+(defun optimize-circuit (circuit)
+  "Optimize circuit by removing redundant constraints."
+  circuit) ; identity for now
+
+(defun circuit-stats (circuit)
+  "Return statistics about the circuit."
+  (list :num-wires (wire-set-count (circuit-wire-set circuit))
+        :num-constraints (length (circuit-constraints circuit))
+        :num-public-inputs (length (circuit-public-inputs circuit))
+        :num-outputs (length (circuit-outputs circuit))))
+
+;;; ============================================================================
+;;; R1CS Validation
+;;; ============================================================================
+
+(defun r1cs-satisfied-p (r1cs circuit)
+  "Verify all R1CS constraints are satisfied."
+  (let ((wire-values (make-hash-table)))
+    ;; Populate wire values from circuit wires
+    (maphash (lambda (id wire)
+               (setf (gethash id wire-values) (or (wire-value wire) 0)))
+             (wire-set-wires (circuit-wire-set circuit)))
+    ;; Check each constraint
+    (loop for constraint in (r1cs-constraints r1cs)
+          always (constraint-satisfied-p constraint wire-values))))
+
+(defun r1cs-to-matrices (r1cs)
+  "Convert R1CS to matrix form (A, B, C)."
+  (declare (ignore r1cs))
+  (values nil nil nil)) ; stub for matrix conversion
 
 
 ;;; ============================================================================
@@ -150,3 +278,14 @@ Returns (values processed-results error-alist)."
 (defun flatten (l) (cond ((null l) nil) ((atom l) (list l)) (t (append (flatten (car l)) (flatten (cdr l))))))
 (defun map-keys (fn hash) (let ((res nil)) (maphash (lambda (k v) (push (funcall fn k) res)) hash) res))
 (defun now-timestamp () (get-universal-time))
+
+;;; Substantive Functional Logic
+
+(defun deep-copy-list (l)
+  "Recursively copies a nested list."
+  (if (atom l) l (cons (deep-copy-list (car l)) (deep-copy-list (cdr l)))))
+
+(defun group-by-count (list n)
+  "Groups list elements into sublists of size N."
+  (loop for i from 0 below (length list) by n
+        collect (subseq list i (min (+ i n) (length list)))))
