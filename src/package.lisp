@@ -7,6 +7,7 @@
   (:use #:cl)
   (:nicknames #:zk-circuits)
   (:export
+   #:memoize-function
    #:deep-copy-list
    #:group-by-count
    #:identity-list
