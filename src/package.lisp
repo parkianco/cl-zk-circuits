@@ -7,7 +7,11 @@
   (:use #:cl)
   (:nicknames #:zk-circuits)
   (:export
-   #:with-zk-circuits-timing
+   #:identity-list
+   #:flatten
+   #:map-keys
+   #:now-timestamp
+#:with-zk-circuits-timing
    #:zk-circuits-batch-process
    #:zk-circuits-health-check;; Field arithmetic
    #:+field-prime+
