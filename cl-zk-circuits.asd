@@ -4,7 +4,7 @@
 (asdf:defsystem #:cl-zk-circuits
   :description "Pure Common Lisp zero-knowledge circuit construction"
   :author "Parkian Company LLC"
-  :license "BSD-3-Clause"
+  :license "Apache-2.0"
   :version "0.1.0"
   :homepage "https://github.com/parkianco/cl-zk-circuits"
   :depends-on ()
